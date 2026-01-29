@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 import pickle
-from pydantic import BaseModel, Field, computed_field
+from pydantic import BaseModel, Field, computed_field, field_validator
 from typing import Annotated, Literal
 import pandas as pd
 from fastapi.responses import JSONResponse
 
 
 # loading the model
-with open('model.pkl', 'rb') as f:
+with open('model/model.pkl', 'rb') as f:
     model = pickle.load(f)
 
 app = FastAPI()
@@ -35,7 +35,12 @@ class UserInput(BaseModel):
     occupation: Annotated[Literal['retired', 'freelancer', 'student', 'government_job',
        'business_owner', 'unemployed', 'private_job'], Field(..., description='Occupation of the user')]
 
-
+    @field_validator('city')
+    @classmethod
+    def normalize(cls, v: str) -> str:
+        v = v.strip().title()
+        return v
+    
     @computed_field
     @property
     def bmi(self) -> float:
