@@ -10,6 +10,8 @@ from fastapi.responses import JSONResponse
 with open('model/model.pkl', 'rb') as f:
     model = pickle.load(f)
 
+MODEL_VERSION = '1.0.0'
+
 app = FastAPI()
 
 tier_1_cities = ["Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata", "Hyderabad", "Pune"]
@@ -76,10 +78,20 @@ class UserInput(BaseModel):
             return 2
         else:
             return 3
-    
-# @app.get('/')
-# def home():
-#     return 'hello world'
+    # human readable
+@app.get('/')
+def home():
+    return {'message': "Insurance Prediction API"}
+
+# machine readable
+@app.get('/health')
+def health_check():
+    return {
+        'status':'OK',
+        'version':MODEL_VERSION,
+        'model_loaded': model is not None
+
+    }
 
 @app.post('/predict')
 def predict_premium(data: UserInput):
