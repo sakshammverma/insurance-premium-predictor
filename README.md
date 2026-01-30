@@ -20,7 +20,7 @@ Instead of just building a model in a notebook, I turned it into a fully functio
 * **Data Validation:** Pydantic
 
 ##  Project Structure
-
+```bash
 ├── app.py                  # Main FastAPI application
 ├── requirements.txt        # Project dependencies
 ├── insurance.csv           # Dataset used for training
@@ -32,7 +32,7 @@ Instead of just building a model in a notebook, I turned it into a fully functio
 │   └── model.pkl           # The saved trained model
 └── schema/
     └── user_input.py       # Pydantic models for data validation
-    
+```
  ## How to Run It Locally
  
 ### 1. Clone the Repository
